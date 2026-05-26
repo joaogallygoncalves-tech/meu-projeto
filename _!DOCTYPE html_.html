@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroAjuda - O Parceiro do Produtor</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 20px text-align;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
+
+        nav {
+            background-color: #1b5e20;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Seções e Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid #2e7d32;
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+
+        /* Formulários e Ferramentas */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+        }
+
+        .resultado {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            display: none;
+            font-weight: bold;
+        }
+
+        /* Mural de Dicas */
+        .dica {
+            background-color: #f1f8e9;
+            border-left: 4px solid #8bc34a;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AgroAjuda</h1>
+        <p>Tecnologia simples para quem alimenta o mundo</p>
+    </header>
+
+    <nav>
+        <a href="#calculadora">Calculadora de Solo</a>
+        <a href="#tempo">Clima</a>
+        <a href="#dicas">Dicas Agrícolas</a>
+    </nav>
+
+    <div class="container">
+        <div class="grid">
+            
+            <!-- FERRAMENTA: CALCULADORA DE CALAGEM -->
+            <div class="card" id="calculadora">
+                <h2>Abastecimento do Solo (Calagem)</h2>
+                <p>Calcule a necessidade de calcário (NC) em toneladas por hectare pelo método de saturação por bases.</p>
+                
+                <div class="form-group">
+                    <label for="ctc">CTC do solo (T):</label>
+                    <input type="number" id="ctc" step="0.1" placeholder="Ex: 8.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="v2">Saturação por bases desejada (% V2):</label>
+                    <input type="number" id="v2" placeholder="Ex: 70 (cultura exigente)">
+                </div>
+
+                <div class="form-group">
+                    <label for="v1">Saturação por bases atual do solo (% V1):</label>
+                    <input type="number" id="v1" placeholder="Ex: 40 (da análise de solo)">
+                </div>
+
+                <button onclick="calcularCalagem()">Calcular Necessidade</button>
+
+                <div id="resultadoCalagem" class="resultado"></div>
+            </div>
+
+            <!-- PAINEL: PREVISÃO E ALERTAS -->
+            <div class="card" id="tempo">
+                <h2>Planejamento do Dia</h2>
+                <p>Confira as condições gerais recomendadas para as operações de hoje:</p>
+                
+                <table style="width:100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px 0;"><strong>Condição:</strong></td>
+                        <td style="padding: 10px 0; text-align: right; color: #ff9800; font-weight: bold;">Ideal para Plantio</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px 0;"><strong>Vento:</strong></td>
+                        <td style="padding: 10px 0; text-align: right;">8 km/h (Bom para pulverização)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px 0;"><strong>Umidade do Ar:</strong></td>
+                        <td style="padding: 10px 0; text-align: right;">65%</td>
+                    </tr>
+                </table>
+                <br>
+                <blockquote style="margin: 0; background: #fff8e1; padding: 10px; border-left: 5px solid #ffb300; font-size: 0.9rem;">
+                    <strong>Dica de Manejo:</strong> Evite pulverizar defensivos se o vento ultrapassar 10 km/h ou nos horários mais quentes do dia (10h às 16h).
+                </blockquote>
+            </div>
+
+        </div>
+
+        <!-- SEÇÃO: DICAS AGRÍCOLAS -->
+        <div class="card" id="dicas" style="margin-top: 20px;">
+            <h2>Boas Práticas no Campo</h2>
+            
+            <div class="dica">
+                <strong>1. Rotação de Culturas:</strong> Alterne espécies (como soja e milho) para quebrar o ciclo de pragas e melhorar os nutrientes biológicos do solo.
+            </div>
+            
+            <div class="dica">
+                <strong>2. Manejo Integrado de Pragas (MIP):</strong> Só aplique defensivos quando a população de pragas atingir o nível de dano econômico. Monitore semanalmente.
+            </div>
+
+            <div class="dica">
+                <strong>3. Proteção de Nascentes:</strong> Mantenha a vegetação nativa ao redor de rios e nascentes (APP). Solo protegido garante água o ano todo.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AgroAjuda - Desenvolvido para apoiar o pequeno e médio produtor.</p>
+    </footer>
+
+    <script>
+        // Função Javascript para calcular a Calagem do Solo
+        function calcularCalagem() {
+            // Pega os valores digitados pelo usuário
+            const ctc = parseFloat(document.getElementById('ctc').value);
+            const v2 = parseFloat(document.getElementById('v2').value);
+            const v1 = parseFloat(document.getElementById('v1').value);
+            const divResultado = document.getElementById('resultadoCalagem');
+
+            // Validação simples dos dados
+            if (isNaN(ctc) || isNaN(v2) || isNaN(v1)) {
+                divResultado.style.display = "block";
+                divResultado.style.backgroundColor = "#ffebee";
+                divResultado.style.borderLeftColor = "#f44336";
+                divResultado.style.color = "#c62828";
+                divResultado.innerHTML = "Por favor, preencha todos os campos corretamente.";
+                return;
+            }
+
+            // Fórmula tradicional: NC (t/ha) = [CTC x (V2 - V1)] / 100
+            // (Considerando um PRNT teórico de 100% para simplificação do app)
+            let nc = (ctc * (v2 - v1)) / 100;
+
+            divResultado.style.display = "block";
+            divResultado.style.backgroundColor = "#e8f5e9";
+            divResultado.style.borderLeftColor = "#4caf50";
+            divResultado.style.color = "#2e7d32";
+
+            if (nc <= 0) {
+                divResultado.innerHTML = "O solo já possui boa saturação por bases. Não há necessidade de calagem!";
+            } else {
+                divResultado.innerHTML = "Necessidade de Calcário: " + nc.toFixed(2) + " toneladas por hectare (t/ha).";
+            }
+        }
+    </script>
+</body>
+</html>
